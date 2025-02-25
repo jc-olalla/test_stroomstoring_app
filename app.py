@@ -8,7 +8,7 @@ app = dash.Dash(__name__)
 
 # Define the layout
 app.layout = html.Div([
-    html.H1("Stroomstoring Animatiekaart Gorinchem", style={'textAlign': 'center'}),
+    # html.H1("Stroomstoring Animatiekaart Gorinchem", style={'textAlign': 'center'}),
     dcc.Graph(figure=fig)  # Display the Plotly map
 ])
 
