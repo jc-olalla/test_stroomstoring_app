@@ -12,11 +12,14 @@ app.layout = html.Div([
         id="map-graph",
         figure=fig,
         style={
-            "height": "80vh",  # Takes most of the screen height
-            "width": "100%",  # Full width for any screen
+            "height": "100vh",  # Full viewport height
+            "width": "100vw",  # Full viewport width
+            "margin": "0",
+            "padding": "0",
         }
     ),
 
+    # JavaScript to toggle the Plotly toolbar based on screen size
     html.Script("""
     function adjustToolbar() {
         let graph = document.getElementById('map-graph');
@@ -35,7 +38,7 @@ app.layout = html.Div([
     window.addEventListener('resize', adjustToolbar);
     window.onload = adjustToolbar;
     """, type="text/javascript")
-])
+], style={"margin": "0", "padding": "0", "overflow": "hidden"})  # Ensure fullscreen behavior
 
 # Expose the server
 server = app.server
