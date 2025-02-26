@@ -19,7 +19,8 @@ gdf_1130["timestamp"] = "11:30"
 gdf_1230["timestamp"] = "12:30"
 
 # Combine all GeoDataFrames into one
-gdf_combined = pd.concat([gdf_0930, gdf_1030, gdf_1130, gdf_1230], ignore_index=True)
+gdf_combined = pd.concat([gdf_0930, gdf_1030, gdf_1130, gdf_1230], ignore_index=True).reset_index()
+gdf_combined["unique_id"] = gdf_combined["postcode"]  # added now
 
 # Compute fixed bounding box
 min_lon, min_lat, max_lon, max_lat = gdf_combined.total_bounds
@@ -47,8 +48,11 @@ for timestamp in timestamps:
                 zmin=0,
                 zmax=10000,  # gdf_combined["aantalInwoners"].max(),
                 featureidkey="id",
+                #featureidkey="properties.unique_id",
                 marker_opacity=0.7,
-                marker_line_width=0
+                marker_line_width=2.0,
+                marker_line_color='black',
+                customdata=gdf_frame[["postcode", "aantalInwoners"]].values  # added now
             )
         ],
         name=timestamp,
@@ -79,8 +83,10 @@ fig = go.Figure(
             zmin=0,
             zmax=10000,
             featureidkey="id",
+            #featureidkey="properties.unique_id",
             marker_opacity=0.7,
-            marker_line_width=0
+            marker_line_width=0,
+            customdata=gdf_frame[["postcode", "aantalInwoners"]].values  # added now
         ),
         # Overlay Static Points
         go.Scattermapbox(
